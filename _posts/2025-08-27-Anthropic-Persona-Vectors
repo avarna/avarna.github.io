@@ -1,3 +1,11 @@
+---
+title: "Anthropic: Persona Vectors — Notes"
+date: 2025-08-27 09:00:00 +1000
+categories: [LLMs]
+tags: [anthropic, persona-vectors, oversight]
+layout: single
+---
+
 **Title:** Persona Vectors: Monitoring and Controlling Character Traits in Language Models  
 **Authors:** Runjin Chen, Andy Arditi, Henry Sleight, Owain Evans, Jack Lindsey  
 **Venue/Year:** Preprint, July 29, 2025 (Anthropic Fellows Program, UT Austin, UC Berkeley, Constellation, Anthropic)  
