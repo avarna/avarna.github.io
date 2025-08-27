@@ -11,6 +11,12 @@ minimal_mistakes_skin: "default"  # options: default, air, contrast, dark, dirt,
 locale: "en-AU"
 timezone: "Australia/Sydney"
 
+# Add pages
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
 # Author (shows in sidebar/profile if enabled)
 author:
   name: "Achinta V"
