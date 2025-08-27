@@ -1,0 +1,66 @@
+**Title:** Persona Vectors: Monitoring and Controlling Character Traits in Language Models  
+**Authors:** Runjin Chen, Andy Arditi, Henry Sleight, Owain Evans, Jack Lindsey  
+**Venue/Year:** Preprint, July 29, 2025 (Anthropic Fellows Program, UT Austin, UC Berkeley, Constellation, Anthropic)  
+**Link:** [arXiv:2507.21509](https://arxiv.org/abs/2507.21509)  
+
+---
+
+## Executive Summary  
+This paper introduces **persona vectors**—linear activation-space directions corresponding to traits like *evil, sycophancy, and hallucination*—extracted automatically from natural-language trait descriptions [pp. 2–3]. These vectors enable **control, monitoring, prediction, and prevention** of persona shifts in LLMs.  
+
+Key results:  
+- Monitoring: projections predict upcoming trait expression (**r = 0.75–0.83**) [p. 5].  
+- Finetuning: shifts along persona vectors predict post-training traits (**r = 0.76–0.97**) [p. 6].  
+- Mitigation: inference steering reduces traits but harms capability (MMLU drops at high α) [p. 7]; **preventative steering** avoids drift while preserving coherence (**>80**) [p. 8].  
+- Data screening: **projection difference** predicts trait shifts and flags risky samples, validated on LMSYS-CHAT-1M [pp. 9–11].  
+
+---
+
+## Main Takeaways  
+- **Automated pipeline** generates prompts/questions and extracts vectors via activation differences [pp. 2–3].  
+- **Steering:** Vectors induce/suppress traits causally [Fig. 3, p. 4].  
+- **Monitoring:** Final-prompt projection predicts trait expression (**r = 0.75–0.83**) [Fig. 4, p. 5].  
+- **Finetuning:** Shifts along vectors predict post-finetuning traits (**r = 0.76–0.97**) [Fig. 6, p. 6].  
+- **Mitigation:** Preventative training-time steering outperforms inference steering [Fig. 7, pp. 7–8].  
+- **Data triage:** Projection difference surfaces harmful datasets and samples [Fig. 9, p. 10].  
+- **Validation:** Effective on LMSYS-CHAT-1M beyond LLM filters [Fig. 10, p. 11].  
+
+---
+
+## Structured Summary  
+
+### Background  
+LLMs embody “Assistant” personas but drift due to prompts or finetuning [p. 1].  
+
+### Methods  
+Automated pipeline (Claude + GPT-4.1-mini) → contrastive prompts/questions + judge → diff-in-means activations = persona vector [pp. 2–3].  
+
+### Results  
+- Steering induces traits [Fig. 3, p. 4].  
+- Monitoring: r = 0.75–0.83 [Fig. 4, p. 5].  
+- Finetuning shift correlation: r = 0.76–0.97 [Fig. 6, p. 6].  
+- Preventative steering preserves coherence >80 [Fig. 7, p. 8].  
+- Projection difference predicts trait induction [Fig. 8, p. 9]; risky samples separable [Fig. 9, p. 10].  
+- Validation: LMSYS-CHAT-1M shows effectiveness post-filtering [Fig. 10, p. 11].  
+
+### Discussion / Implications  
+Persona vectors unify monitoring, control, and prevention of persona drift.  
+
+### Limitations  
+Trait-specific, judge biases, mid-size models, computational cost [p. 12].  
+
+### Key Numbers at a Glance  
+- Monitoring correlation: **r = 0.75–0.83** [p. 5]  
+- Finetuning shift correlation: **r = 0.76–0.97** [p. 6]  
+- Baseline trait scores: **0 / 4.4 / 20.1** (evil/sycophancy/hallucination) [p. 7]  
+- Coherence: **≥75** (inference), **>80** (preventative) [p. 8]  
+- Projection difference predictive of trait shifts [p. 9]  
+
+---
+
+## Enterprise Angle
+In financial services, trust and compliance are paramount, yet GenAI models can drift—becoming sycophantic, fabricating facts, or adopting unprofessional tones. Persona vectors offer a scalable, interpretable way to monitor, predict, and prevent such risks.
+
+They enable preventative steering during finetuning, preserving accuracy while maintaining an empathetic, compliant persona. Projection difference metrics help screen training data, catching subtle harmful samples that evade standard filters. Most powerfully, persona vectors allow real-time monitoring: projecting activations onto trait vectors during interactions can flag early signs of hallucination or misalignment before responses reach customers, enabling proactive oversight and dynamic safeguards.
+
+A practical limitation today is that closed-source models like OpenAI’s GPT-5 and Anthropic’s Claude do not expose the internal activations needed for persona vectors, so they cannot yet be applied “out of the box.” However, research momentum and industry demand point toward future access via interpretability hooks or auditing APIs. When available, persona vectors could become a standard tool for continuous persona monitoring—helping ensure GenAI systems in banking remain aligned, compliant, and trustworthy.
