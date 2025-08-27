@@ -2,7 +2,7 @@
 title: "Welcome + Why I’m writing AI paper notes"
 date: 2025-08-27
 categories: [Meta]
-tags: [intro, research-notes, llms]
+tags: [intro, research-notes]
 excerpt: "What this blog is, how I’ll summarize papers, and how you can use these notes."
 ---
 
@@ -10,9 +10,7 @@ excerpt: "What this blog is, how I’ll summarize papers, and how you can use th
 Because modern AI moves fast—and the *slope* of learning depends on how efficiently we extract signal from papers. This blog is my working notebook: short, structured summaries of research I read, with pragmatic takeaways.
 
 ### What to expect
-- **Executive summaries** in ≤180 words  
-- **Main takeaways** as bullets with numbers when possible  
-- **Structured notes** (Background → Methods → Results → Implications → Limitations)  
+- **Executive summaries** with 5 to 10 bullet points     
 - Occasional **banking/enterprise** angle where relevant (risk, compliance, monitoring, MLOps)
 
 ### What I won’t do
