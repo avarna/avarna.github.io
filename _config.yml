@@ -30,6 +30,12 @@ author:
 
 # Build settings
 markdown: kramdown
+
+# Below lines enable rendering of math equations
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
+  
 highlighter: rouge
 
 # Plugins (all are GitHub Pages–safe)
