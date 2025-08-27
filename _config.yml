@@ -1,0 +1,79 @@
+title: "The Gradient"
+description: "Distilled notes from AI research papers — methods, results, and what they mean in practice."
+url: "https://avarna.github.io"   
+baseurl: ""                              # keep empty for user/organization pages
+
+# Use Minimal Mistakes via remote_theme (works on GitHub Pages)
+remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+
+# Minimal Mistakes core settings
+minimal_mistakes_skin: "default"  # options: default, air, contrast, dark, dirt, neon, mint, sunrise, etc.
+locale: "en-AU"
+timezone: "Australia/Sydney"
+
+# Author (shows in sidebar/profile if enabled)
+author:
+  name: "Achinta V"
+  avatar: # e.g., "/assets/images/avatar.jpg"  (optional)
+  bio: "Senior Staff Data Scientist. I read AI papers and capture the signal."
+  location: "Sydney, Australia"
+  links:
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "https://www.linkedin.com/in/achintav"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Plugins (all are GitHub Pages–safe)
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-include-cache
+  - jekyll-paginate
+
+paginate: 5
+paginate_path: "/page:num/"
+
+# Navigation (see _data/navigation.yml)
+nav:
+  - title: "Home"
+    url: /
+  - title: "About"
+    url: /about/
+
+# Defaults: posts use the "single" layout by default
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "single"
+      author_profile: true
+      read_time: true
+      comments: false
+      share: true
+      related: true
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "single"
+      author_profile: true
+
+# SEO & feed
+feed:
+  path: feed.xml
+
+# Analytics (optional)
+# analytics:
+#   provider: "plausible"
+#   plausible:
+#     domain: "YOURDOMAIN"
+
+# Exclude (optional)
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
