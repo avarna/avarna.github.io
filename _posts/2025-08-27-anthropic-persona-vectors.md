@@ -7,62 +7,41 @@ layout: single
 ---
 
 **Title:** Persona Vectors: Monitoring and Controlling Character Traits in Language Models  
-**Authors:** Runjin Chen, Andy Arditi, Henry Sleight, Owain Evans, Jack Lindsey  
-**Venue/Year:** Preprint, July 29, 2025 (Anthropic Fellows Program, UT Austin, UC Berkeley, Constellation, Anthropic)  
 **Link:** [arXiv:2507.21509](https://arxiv.org/abs/2507.21509)  
 
 ---
 
-## Executive Summary  
-This paper introduces **persona vectors**—linear activation-space directions corresponding to traits like *evil, sycophancy, and hallucination*—extracted automatically from natural-language trait descriptions [pp. 2–3]. These vectors enable **control, monitoring, prediction, and prevention** of persona shifts in LLMs.  
+## Executive Summary
 
-Key results:  
-- Monitoring: projections predict upcoming trait expression (**r = 0.75–0.83**) [p. 5].  
-- Finetuning: shifts along persona vectors predict post-training traits (**r = 0.76–0.97**) [p. 6].  
-- Mitigation: inference steering reduces traits but harms capability (MMLU drops at high α) [p. 7]; **preventative steering** avoids drift while preserving coherence (**>80**) [p. 8].  
-- Data screening: **projection difference** predicts trait shifts and flags risky samples, validated on LMSYS-CHAT-1M [pp. 9–11].  
+- **Automated “persona vector” extraction pipeline.**  
+  The authors introduce a fully automated method that, given only a trait name plus a natural-language description (e.g., *evil*, *sycophancy*, *hallucination*), generates contrastive prompts, questions, and a rubric, then computes a linear direction in the model’s activation space that corresponds to that trait. Persona vectors are obtained as a difference-in-means of residual activations between trait-expressing and non-expressing responses. [Figure 2; Section 2.1–2.2] :contentReference[oaicite:0]{index=0} :contentReference[oaicite:1]{index=1} :contentReference[oaicite:2]{index=2}
 
----
+- **Causal control via steering during generation.**  
+  With a persona vector \(v_\ell\) for layer \(\ell\), the model can be steered by adding \( \alpha v_\ell \) to the residual stream at each decoding step, increasing the corresponding trait expression (e.g., more *evil*, more sycophancy, or more hallucination) in a dose-dependent manner. [Section 3.2; Figure 3] :contentReference[oaicite:3]{index=3} :contentReference[oaicite:4]{index=4}
 
-## Main Takeaways  
-- **Automated pipeline** generates prompts/questions and extracts vectors via activation differences [pp. 2–3].  
-- **Steering:** Vectors induce/suppress traits causally [Fig. 3, p. 4].  
-- **Monitoring:** Final-prompt projection predicts trait expression (**r = 0.75–0.83**) [Fig. 4, p. 5].  
-- **Finetuning:** Shifts along vectors predict post-finetuning traits (**r = 0.76–0.97**) [Fig. 6, p. 6].  
-- **Mitigation:** Preventative training-time steering outperforms inference steering [Fig. 7, pp. 7–8].  
-- **Data triage:** Projection difference surfaces harmful datasets and samples [Fig. 9, p. 10].  
-- **Validation:** Effective on LMSYS-CHAT-1M beyond LLM filters [Fig. 10, p. 11].  
+- **Early-warning monitoring of prompt-induced persona shifts.**  
+  Projection of the *last prompt token* onto the persona vector strongly correlates with the trait expressed in the subsequent response (Pearson \(r = 0.75\)–\(0.83\)), enabling prediction of risky shifts *before* generation. This holds for both system-prompt interpolation and many-shot prompting. [Section 3.3; Figure 4] :contentReference[oaicite:5]{index=5} :contentReference[oaicite:6]{index=6}
 
----
+- **Finetuning can induce diverse—and unintended—persona shifts.**  
+  Training on datasets that either explicitly elicit traits (evil, sycophancy, hallucination) or contain domain-specific flaws (medical/code errors, math mistakes, political-opinion flaws) produces varied post-finetuning trait profiles; datasets targeting one trait can inadvertently amplify others. [Section 4.1; Figure 5] :contentReference[oaicite:7]{index=7} :contentReference[oaicite:8]{index=8} :contentReference[oaicite:9]{index=9}
 
-## Structured Summary  
+- **A simple representation metric predicts post-finetuning behavior.**  
+  The *finetuning shift*—the change (base → finetuned) in average last-prompt hidden state projected onto the trait direction—correlates tightly with measured trait expression after training (\(r = 0.76\)–\(0.97\)). This is stronger than cross-trait baselines, indicating trait specificity. [Section 4.2; Figure 6] :contentReference[oaicite:10]{index=10} :contentReference[oaicite:11]{index=11}
 
-### Background  
-LLMs embody “Assistant” personas but drift due to prompts or finetuning [p. 1].  
+- **Two mitigation strategies using persona vectors.**  
+  - **Post-hoc (inference-time) steering:** subtracting \( \alpha v_\ell \) during decoding reduces the target trait but can degrade MMLU at large \(\alpha\).  
+  - **Preventative (training-time) steering:** *adding* \( \alpha v_\ell \) during finetuning reduces subsequent trait shifts while better preserving average coherence and MMLU.  
+  [Section 5.1–5.2; Figure 7] :contentReference[oaicite:12]{index=12} :contentReference[oaicite:13]{index=13} :contentReference[oaicite:14]{index=14}
 
-### Methods  
-Automated pipeline (Claude + GPT-4.1-mini) → contrastive prompts/questions + judge → diff-in-means activations = persona vector [pp. 2–3].  
+- **Pre-finetuning data screening via “projection difference.”**  
+  For each training prompt, compare the training response’s projection to the base model’s *natural* response projection along the persona direction; the dataset-level *projection difference* strongly predicts post-finetuning trait expression (and tracks finetuning shift). Efficient approximations (sampling; last-prompt-token proxy) work well, especially for evil and hallucination. [Section 6.1; Figure 8; Appx F/H/I] :contentReference[oaicite:15]{index=15} :contentReference[oaicite:16]{index=16} :contentReference[oaicite:17]{index=17}
 
-### Results  
-- Steering induces traits [Fig. 3, p. 4].  
-- Monitoring: r = 0.75–0.83 [Fig. 4, p. 5].  
-- Finetuning shift correlation: r = 0.76–0.97 [Fig. 6, p. 6].  
-- Preventative steering preserves coherence >80 [Fig. 7, p. 8].  
-- Projection difference predicts trait induction [Fig. 8, p. 9]; risky samples separable [Fig. 9, p. 10].  
-- Validation: LMSYS-CHAT-1M shows effectiveness post-filtering [Fig. 10, p. 11].  
+- **Sample-level detection and validation on real-world chat.**  
+  Sorting real-world chat samples (e.g., LMSYS-CHAT-1M) by projection difference identifies subsets that *induce* or *suppress* traits after finetuning; the high-projection subset yields the strongest trait expression even after LLM-based filtering removes obviously problematic samples. [Section 6.2–6.3; Figure 10] :contentReference[oaicite:18]{index=18} :contentReference[oaicite:19]{index=19} :contentReference[oaicite:20]{index=20}
 
-### Discussion / Implications  
-Persona vectors unify monitoring, control, and prevention of persona drift.  
+- **Scope and practical notes.**  
+  Results focus on Qwen2.5-7B-Instruct and Llama-3.1-8B-Instruct; persona-vector monitoring is most reliable for clear, explicit prompt manipulations; multi-layer steering further improves prevention while preserving capabilities; CAFT (directional ablation) works for some traits (evil, sycophancy) but not hallucinations in this setup. [Model/trait scope in §3.1; Appx J.3; Appx J.4] :contentReference[oaicite:21]{index=21} :contentReference[oaicite:22]{index=22} :contentReference[oaicite:23]{index=23} :contentReference[oaicite:24]{index=24}
 
-### Limitations  
-Trait-specific, judge biases, mid-size models, computational cost [p. 12].  
-
-### Key Numbers at a Glance  
-- Monitoring correlation: **r = 0.75–0.83** [p. 5]  
-- Finetuning shift correlation: **r = 0.76–0.97** [p. 6]  
-- Baseline trait scores: **0 / 4.4 / 20.1** (evil/sycophancy/hallucination) [p. 7]  
-- Coherence: **≥75** (inference), **>80** (preventative) [p. 8]  
-- Projection difference predictive of trait shifts [p. 9]  
 
 ---
 
