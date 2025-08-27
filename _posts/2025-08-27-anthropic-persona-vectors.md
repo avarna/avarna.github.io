@@ -17,20 +17,20 @@ layout: single
   A fully automated method that, given only a trait name plus a natural-language description (e.g., *evil*, *sycophancy*, *hallucination*), generates contrastive prompts, questions, and a rubric, then computes a linear direction in the model’s activation space that corresponds to that trait. Persona vectors are obtained as a difference-in-means of residual activations between trait-expressing and non-expressing responses.
 
 - **Causal control via steering during generation.**  
-  With a persona vector \(v_\ell\) for layer \(\ell\), the model can be steered by adding \( \alpha v_\ell \) to the residual stream at each decoding step, increasing the corresponding trait expression (e.g., more *evil*, more sycophancy, or more hallucination) in a dose-dependent manner.
+  With a persona vector $v_\ell$ for layer $\ell$, the model can be steered by adding $\alpha v_\ell$ to the residual stream at each decoding step, increasing the corresponding trait expression (e.g., more *evil*, more sycophancy, or more hallucination) in a dose-dependent manner.
 
 - **Early-warning monitoring of prompt-induced persona shifts.**  
-  Projection of the *last prompt token* onto the persona vector strongly correlates with the trait expressed in the subsequent response (Pearson \(r = 0.75\)–\(0.83\)), enabling prediction of risky shifts *before* generation. This holds for both system-prompt interpolation and many-shot prompting.
+  Projection of the *last prompt token* onto the persona vector strongly correlates with the trait expressed in the subsequent response (Pearson $r = 0.75$–$0.83$), enabling prediction of risky shifts *before* generation. This holds for both system-prompt interpolation and many-shot prompting.
 
 - **Finetuning can induce diverse—and unintended—persona shifts.**  
   Training on datasets that either explicitly elicit traits (evil, sycophancy, hallucination) or contain domain-specific flaws (medical/code errors, math mistakes, political-opinion flaws) produces varied post-finetuning trait profiles; datasets targeting one trait can inadvertently amplify others.
 
 - **A simple representation metric predicts post-finetuning behavior.**  
-  The *finetuning shift*—the change (base → finetuned) in average last-prompt hidden state projected onto the trait direction—correlates tightly with measured trait expression after training (\(r = 0.76\)–\(0.97\)). This is stronger than cross-trait baselines, indicating trait specificity.
+  The *finetuning shift* — the change (base → finetuned) in average last-prompt hidden state projected onto the trait direction — correlates tightly with measured trait expression after training ($r = 0.76$–$0.97$). This is stronger than cross-trait baselines, indicating trait specificity.
 
 - **Two mitigation strategies using persona vectors.**  
-  - **Post-hoc (inference-time) steering:** subtracting \( \alpha v_\ell \) during decoding reduces the target trait but can degrade MMLU at large \(\alpha\).  
-  - **Preventative (training-time) steering:** *adding* \( \alpha v_\ell \) during finetuning reduces subsequent trait shifts while better preserving average coherence and MMLU.
+  - **Post-hoc (inference-time) steering:** subtracting $\alpha v_\ell$ during decoding reduces the target trait but can degrade MMLU at large $\alpha$.  
+  - **Preventative (training-time) steering:** adding $\alpha v_\ell$ during finetuning reduces subsequent trait shifts while better preserving average coherence and MMLU.
 
 - **Pre-finetuning data screening via “projection difference.”**  
   For each training prompt, compare the training response’s projection to the base model’s *natural* response projection along the persona direction; the dataset-level *projection difference* strongly predicts post-finetuning trait expression (and tracks finetuning shift). Efficient approximations (sampling; last-prompt-token proxy) work well, especially for evil and hallucination.
